@@ -1,0 +1,44 @@
+<div class="modal-header">
+     <h4 class="modal-title">Agregar Nuevo libro</h4>
+       <button type="button" class="close" aria-label="Close"(click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+    <div class="modal-body">
+    <form [formGroup]="formGroup">
+          <div class="row justify-content-center">
+          <div class="row justify-content-center">
+              <div class="form-floating mb-3 col-6">
+                  <input type="email" class="form-control" id="floatingInput" formControlName="titulo"  >
+                  <label class="label-position" for="floatingInput">Titulo</label>
+                </div>
+                
+                <div class="form-floating mb-3 col-6">
+                  <input type="text" class="form-control" id="floatingPassword"  formControlName="autor" >
+                  <label class="label-position"  for="floatingPassword">Autor</label>
+                </div>
+          </div>
+        
+            <div class="row justify-content-center">
+              <div class="form-floating mb-3 col-6">
+                  <input type="email" class="form-control" id="floatingInput" formControlName="publicador" >
+                  <label class="label-position"  for="floatingInput">Publicador</label>
+                </div>
+                
+                <div class="form-floating mb-3 col-6">
+                  <input type="text" class="form-control" id="floatingPassword" formControlName="genero">
+                  <label class="label-position" for="floatingPassword">Genero</label>
+                </div>
+            </div>
+       
+            <div class="form-floating col-6">
+              <input type="number" class="form-control" id="floatingInput" formControlName="precio" >
+              <label class="label-position"  for="floatingInput">precio</label>
+            </div>
+      </div>
+    </form>
+      </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" [disabled]="formGroup.invalid" (click)="agregar()">Agregar</button>
+          <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button>
+  </div>
