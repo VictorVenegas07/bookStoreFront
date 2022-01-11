@@ -4,7 +4,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HandleHttpErrorService } from '../@base/handle-http-error.service';
 import { UsuarioInput, UsuarioView } from '../Models/login';
 import { catchError, tap } from 'rxjs/operators';
-import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +15,6 @@ export class AuthenticationService {
 
   constructor(
     private http: HttpClient,
-    @Inject(DOCUMENT) document: any,
-    // @Inject('BASE_URL') baseUrl: string,
     private handleErrorService: HandleHttpErrorService){
     this.currentUserSubject = new BehaviorSubject<UsuarioView>(JSON.parse(localStorage.getItem('sesionActual') || '[]'));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -25,7 +22,6 @@ export class AuthenticationService {
   }
 
   
-
   login(user: UsuarioInput) {
     return this.http.post<any>(this.baseUrl + 'api/Usuario', user)
       .pipe(tap(user => {

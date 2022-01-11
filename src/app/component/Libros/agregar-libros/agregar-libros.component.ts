@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { libroInput, libroView } from 'src/app/Models/libro';
+import { UsuarioView } from 'src/app/Models/login';
+import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { LibroService } from 'src/app/Services/libro.service';
 
 @Component({
@@ -13,7 +15,10 @@ export class AgregarLibrosComponent implements OnInit {
 
   formGroup!: FormGroup;
   libroModificado: libroInput = new libroInput;
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private librosService:LibroService) { }
+  currentUser: UsuarioView = new UsuarioView; 
+  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private librosService:LibroService, private authenticationService: AuthenticationService) {
+     this.currentUser = this.authenticationService.currentUserValue;
+   }
   libro: libroView = new libroView;
 
 
@@ -23,12 +28,14 @@ export class AgregarLibrosComponent implements OnInit {
   }
 
   private buildForm() {
+    
       this.formGroup = this.formBuilder.group({
         titulo:[this.libro.titulo, Validators.required],
         autor:[this.libro.autor, Validators.required],
         publicador:[this.libro.publicador, Validators.required],
         genero:[this.libro.genero, Validators.required],
-        precio:[this.libro.precio, Validators.required]
+        precio:[this.libro.precio, Validators.required],
+        idUsuario:[this.currentUser.idUser, Validators.required]
        });
   }
 

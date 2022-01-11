@@ -4,6 +4,7 @@ export class libroInput {
     publicador:string = "";
     genero:string = "";
     precio:number = 0;
+    idUsuario:number = 0;
 }
 
 export class libroView extends libroInput {

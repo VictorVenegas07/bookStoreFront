@@ -50,8 +50,5 @@ export class ModificarLibrosComponent implements OnInit {
       console.log('modificado con exito')
       this.activeModal.close(data);
     });
-
-
-
   }
 }

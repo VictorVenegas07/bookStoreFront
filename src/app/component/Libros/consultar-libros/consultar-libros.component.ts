@@ -23,8 +23,10 @@ export class ConsultarLibrosComponent implements OnInit {
   }
 
   consultarLibros() {
-    this.librosService.get().subscribe((data) => {
+    this.librosService.getDatos().then((data) => {
       this.libros = data;
+    }).catch((err) => {
+      console.log(err);
     })
   }
 

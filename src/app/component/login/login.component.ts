@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     this.user = new UsuarioInput();
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
-      this.router.navigate(["/"]);
+      this.router.navigate([""]);
     }
   }
 
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
   }
   
   get f() {
@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { HandleHttpErrorService } from '../@base/handle-http-error.service';
 import { libroInput, libroView } from '../Models/libro';
 
@@ -14,9 +14,8 @@ export class LibroService {
     private http: HttpClient,
     // @Inject('BASE_URL') baseUrl: string,
     private handleErrorService: HandleHttpErrorService
- ) 
-  {
-    this.baseUrl = "https://localhost:44340/"; 
+  ) {
+    this.baseUrl = "https://localhost:44340/";
   }
 
   get(): Observable<libroView[]> {
@@ -35,18 +34,39 @@ export class LibroService {
 
   put(libro: libroView): Observable<libroView> {
     const url = `${this.baseUrl}api/Libro/${libro.idLibro}`;
-    return this.http.put<libroView>(url , libro).pipe(
+    return this.http.put<libroView>(url, libro).pipe(
       tap(_ => this.handleErrorService.log('datos enviados correctamentes')),
       catchError(this.handleErrorService.handleError<any>('Modificar libro', null))
     );
   }
 
-  delete(libro: libroView| string): Observable<libroView> {
+  delete(libro: libroView | string): Observable<libroView> {
     const id = typeof libro === 'string' ? libro : libro.idLibro;
-    return this.http.delete<libroView>(this.baseUrl + 'api/Libro/'+ id)
-    .pipe(
-      tap(_ => this.handleErrorService.log('Eliminado correctamente')),
-      catchError(this.handleErrorService.handleError<any>('Elimiar puesto', null))
+    return this.http.delete<libroView>(this.baseUrl + 'api/Libro/' + id)
+      .pipe(
+        tap(_ => this.handleErrorService.log('Eliminado correctamente')),
+        catchError(this.handleErrorService.handleError<any>('Elimiar puesto', null))
+      );
+  }
+
+  getDatos() {
+    return new Promise<any>((resolve, reject) => {
+      setTimeout(() => {
+        this.prueba().subscribe((data) => {
+          if (data != null) {
+            resolve(data);
+          }
+          reject(data);
+        })
+      }, 1000);
+    });
+  }
+
+  prueba(): Observable<libroView[]> {
+    return this.http.get<libroView[]>(this.baseUrl + 'api/Libro').pipe(
+      catchError(err => {console.log('No hay datos');
+        return of(err);
+      })
     );
   }
 }
