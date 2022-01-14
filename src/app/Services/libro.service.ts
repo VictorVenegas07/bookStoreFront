@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HandleHttpErrorService } from '../@base/handle-http-error.service';
 import { libroInput, libroView } from '../Models/libro';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,9 @@ export class LibroService {
   baseUrl: string;
   constructor(
     private http: HttpClient,
-    // @Inject('BASE_URL') baseUrl: string,
     private handleErrorService: HandleHttpErrorService
   ) {
-    this.baseUrl = "https://localhost:44340/";
+    this.baseUrl = environment.API_URL;
   }
 
   get(): Observable<libroView[]> {
@@ -49,24 +49,21 @@ export class LibroService {
       );
   }
 
-  getDatos() {
-    return new Promise<any>((resolve, reject) => {
-      setTimeout(() => {
-        this.prueba().subscribe((data) => {
-          if (data != null) {
-            resolve(data);
-          }
-          reject(data);
-        })
-      }, 1000);
-    });
-  }
+  // getDatos() {
+  //   return new Promise<any>((resolve, reject) => {
+  //     setTimeout(() => {
+  //       this.prueba().subscribe((data) => {
+  //         if (data != null) {
+  //           resolve(data);
+  //         }
+  //         reject(data);
+  //       })
+  //     }, 1000);
+  //   });
+  // }
 
-  prueba(): Observable<libroView[]> {
-    return this.http.get<libroView[]>(this.baseUrl + 'api/Libro').pipe(
-      catchError(err => {console.log('No hay datos');
-        return of(err);
-      })
-    );
+  async getprueba(){
+     const request = await this.http.get<libroView[]>(this.baseUrl + 'api/Libro').toPromise();
+     return request;
   }
 }

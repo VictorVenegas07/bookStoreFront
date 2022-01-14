@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HandleHttpErrorService } from '../@base/handle-http-error.service';
 import { UsuarioInput, UsuarioView } from '../Models/login';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthenticationService {
     private handleErrorService: HandleHttpErrorService){
     this.currentUserSubject = new BehaviorSubject<UsuarioView>(JSON.parse(localStorage.getItem('sesionActual') || '[]'));
     this.currentUser = this.currentUserSubject.asObservable();
-    this.baseUrl = "https://localhost:44340/";
+    this.baseUrl = environment.API_URL;
   }
 
   
